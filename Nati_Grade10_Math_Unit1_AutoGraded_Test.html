@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nati | Grade 10 Mathematics Unit 1 Challenge</title>
+<style>
+:root{--bg:#f3f5f9;--card:#fff;--ink:#172033;--muted:#667085;--line:#e4e8f0;--accent:#182b55;--accent2:#3159a5;--good:#137547;--bad:#b42318;--soft:#eef2fa}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.55}
+header{background:linear-gradient(135deg,#101d3b,#263f76);color:white;padding:30px 18px 26px;text-align:center}
+header .tag{font-size:12px;letter-spacing:2px;text-transform:uppercase;opacity:.8}
+h1{margin:8px 0;font-size:clamp(23px,5vw,34px)}header p{margin:5px auto;max-width:680px;color:#e1e8f8}
+.wrap{max-width:900px;margin:20px auto;padding:0 14px 40px}
+.panel,.question{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 4px 16px rgba(20,35,70,.045)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.stat{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);padding:10px;border-radius:10px}
+.stat b{display:block;font-size:19px}.stat span{font-size:11px;opacity:.82;text-transform:uppercase;letter-spacing:1px}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:25px 2px 8px}
+.section-title h2{font-size:20px;margin:0}.section-title span{font-size:13px;color:var(--muted)}
+.qhead{display:flex;justify-content:space-between;gap:12px;font-weight:700;margin-bottom:10px}
+.mark{font-size:12px;color:var(--muted);white-space:nowrap}
+.options{display:grid;gap:8px}
+.option{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);padding:10px 12px;border-radius:9px;cursor:pointer}
+.option:hover{background:#f7f9fd;border-color:#b9c6df}.option input{margin-top:5px;accent-color:var(--accent2)}
+.workgrid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
+.part{border:1px solid var(--line);padding:12px;border-radius:10px;background:#fcfdff}
+.part label{display:block;font-weight:600;margin-bottom:7px}
+.part input{width:100%;padding:11px;border:1px solid #cbd3e1;border-radius:8px;font-size:16px}
+.part small{display:block;color:var(--muted);margin-top:5px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
+button{border:0;border-radius:9px;padding:13px 19px;font-size:15px;font-weight:700;cursor:pointer}
+#submit{background:var(--accent);color:#fff;flex:1}#reset{background:#e7ebf3;color:#25324a}
+button:disabled{opacity:.6;cursor:not-allowed}
+#result{display:none}.score{font-size:34px;font-weight:800}.feedback{padding:12px;border-radius:9px;margin:10px 0}
+.correct{background:#eaf7ef;color:var(--good);border:1px solid #bce5ca}
+.incorrect{background:#fff0ef;color:var(--bad);border:1px solid #f4c4c0}
+.review{margin-top:12px}.review details{border-top:1px solid var(--line);padding:10px 0}.review summary{cursor:pointer;font-weight:700}
+.explain{color:#475467;font-size:14px;margin-top:7px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:18px}
+@media(min-width:650px){.workgrid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="tag">Ethiopian New Curriculum • Grade 10</div>
+  <h1>Mathematics — Unit 1 Challenge</h1>
+  <p>Relations and Functions • Slope and Intercept • Linear and Quadratic Functions</p>
+  <div class="stats">
+    <div class="stat"><b>20</b><span>Multiple choice</span></div>
+    <div class="stat"><b>10</b><span>Workout problems</span></div>
+    <div class="stat"><b>50</b><span>Total marks</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="panel">
+    <b>Instructions</b>
+    <ul>
+      <li>Part A: 20 multiple-choice questions, 1 mark each.</li>
+      <li>Part B: 10 workout questions, 3 short-answer parts each (1 mark per part).</li>
+      <li>Enter final answers in the boxes. Use exact forms where possible, for example <b>3/2</b>, <b>[-2,7]</b>, or <b>y=-2x+1</b>.</li>
+      <li>Press <b>Submit &amp; Grade</b> to see your score, correct answers, and explanations. Your answers are not revealed before submission.</li>
+    </ul>
+    <p style="color:#667085;margin-bottom:0">Suggested time: 90 minutes • Maximum score: 50</p>
+  </section>
+
+  <div class="section-title"><h2>Part A — Multiple Choice</h2><span>20 × 1 = 20 marks</span></div>
+  <div id="mcqs"></div>
+
+  <div class="section-title"><h2>Part B — Workout</h2><span>10 × 3 = 30 marks</span></div>
+  <div id="workouts"></div>
+
+  <div class="actions">
+    <button id="submit" type="button">Submit &amp; Grade My Test</button>
+    <button id="reset" type="button">Reset Test</button>
+  </div>
+  <section class="panel" id="result" aria-live="polite"></section>
+  <footer>Prepared for practice • Nati Grade 10 Mathematics</footer>
+</main>
+<script>
+const mcq = [
+ {q:"Which statement best describes a relation from set A to set B?",o:["A rule that must pair every element of A with exactly one element of B","A set of ordered pairs whose first element is from A and second is from B","A set containing only equal ordered pairs","A rule that always has equal domain and range"],a:1,e:"A relation from A to B is a subset of the Cartesian product A × B."},
+ {q:"If R = {(1, 3), (2, 4), (3, 4), (4, 7)}, what is the range?",o:["{1, 2, 3, 4}","{3, 4, 7}","{1, 2, 3, 4, 7}","{3, 4, 4, 7}"],a:1,e:"The range contains the distinct second coordinates: 3, 4 and 7."},
+ {q:"Which relation is NOT a function?",o:["{(1,2),(2,3),(3,4)}","{(0,5),(1,5),(2,5)}","{(2,1),(2,4),(3,5)}","{(-1,0),(0,0),(1,0)}"],a:2,e:"A function cannot assign two different outputs to the same input. Here input 2 has outputs 1 and 4."},
+ {q:"The domain of the relation y² = x − 3 is:",o:["x ≤ 3","x ≥ 3","All real numbers","y ≥ 3"],a:1,e:"Since y² ≥ 0, x − 3 ≥ 0, so x ≥ 3."},
+ {q:"The graph of a relation defined by an inequality in two variables is generally:",o:["A single point","A curve only","A region on the coordinate plane","Always a straight line"],a:2,e:"An inequality relation represents a region on the coordinate system."},
+ {q:"Which test can be used on a graph to decide whether it represents y as a function of x?",o:["Horizontal-line test","Vertical-line test","Angle test","Midpoint test"],a:1,e:"A vertical line must not intersect the graph at more than one point."},
+ {q:"If f(x) = 2x − 5, then f(−3) equals:",o:["−11","−1","1","11"],a:0,e:"f(−3) = 2(−3) − 5 = −11."},
+ {q:"If f(x)=x²+1 and g(x)=3x, then (f+g)(x) is:",o:["x²+3","x²+3x+1","3x³+1","x²−3x+1"],a:1,e:"Add the functions: x² + 1 + 3x = x² + 3x + 1."},
+ {q:"For f(x)=√(x−4), the domain is:",o:["x ≤ 4","x ≥ 4","x > 4","All real x"],a:1,e:"The expression under the square root must be non-negative: x−4 ≥ 0."},
+ {q:"The slope of the line through (−2, 5) and (4, −1) is:",o:["1","−1","2","−2"],a:1,e:"m = (−1−5)/(4−(−2)) = −6/6 = −1."},
+ {q:"For the linear function f(x)=−4x+7, the y-intercept is:",o:["(7,0)","(0,7)","(0,−4)","(−4,0)"],a:1,e:"The y-intercept occurs at x=0, giving y=7."},
+ {q:"The x-intercept of y=3x−12 is:",o:["(0,−12)","(4,0)","(−4,0)","(0,4)"],a:1,e:"Set y=0: 3x−12=0, so x=4."},
+ {q:"A linear function f(x)=ax+b is increasing when:",o:["a < 0","a = 0","a > 0","b > 0"],a:2,e:"A positive slope means the line rises as x increases."},
+ {q:"Which equation has slope 2 and y-intercept −3?",o:["y=−3x+2","y=2x−3","y=2x+3","y=−2x−3"],a:1,e:"In y=ax+b, a is the slope and b is the y-intercept."},
+ {q:"The graph of f(x)=−5 is:",o:["A vertical line","A horizontal line","A parabola","A line through the origin"],a:1,e:"A constant function has a horizontal graph y=−5."},
+ {q:"For f(x)=x²−6x+8, the axis of symmetry is:",o:["x=−3","x=3","y=3","x=6"],a:1,e:"The axis is x=−b/(2a)=6/2=3."},
+ {q:"The vertex of y=(x−2)²+5 is:",o:["(−2,5)","(2,−5)","(2,5)","(5,2)"],a:2,e:"Vertex form y=a(x−h)²+k has vertex (h,k)."},
+ {q:"If the leading coefficient of a quadratic function is negative, its parabola:",o:["Opens upward","Opens downward","Is always a straight line","Has no vertex"],a:1,e:"A negative coefficient of x² makes the parabola open downward."},
+ {q:"The roots of x²−9=0 are:",o:["0 and 9","−9 and 9","−3 and 3","3 only"],a:2,e:"x²=9, so x=−3 or x=3."},
+ {q:"The minimum value of f(x)=x²+4x+7 is:",o:["7","4","3","−4"],a:2,e:"Complete the square: (x+2)²+3. The minimum value is 3."}
+];
+
+const workouts = [
+ {q:"Let R={(−2,1),(0,3),(2,5),(4,7)}.",parts:[
+  ["Write the domain.",["{-2,0,2,4}","{-2, 0, 2, 4}"]],
+  ["Write the range.",["{1,3,5,7}","{1, 3, 5, 7}"]],
+  ["Is R a function? Enter yes or no.",["yes","y"]]
+ ],why:"The domain is the set of first coordinates, the range is the set of second coordinates, and every input occurs only once."},
+ {q:"Given f(x)=3x²−2x+4.",parts:[
+  ["Find f(−2).",["20"]],
+  ["Find f(1).",["5"]],
+  ["Find f(a).",["3a^2-2a+4","3a²−2a+4"]]
+ ],why:"Substitute the given input into the function and simplify."},
+ {q:"Given f(x)=x²+2x and g(x)=3x−1.",parts:[
+  ["Find (f+g)(x).",["x^2+5x-1","x²+5x−1"]],
+  ["Find (f−g)(x).",["x^2-x+1","x²−x+1"]],
+  ["Find (fg)(x), expanded.",["3x^3+5x^2-2x","3x³+5x²−2x"]]
+ ],why:"Add, subtract, or multiply the two expressions and simplify."},
+ {q:"Find the equation of the line passing through (1,4) and (3,10).",parts:[
+  ["Find its slope.",["3"]],
+  ["Find its y-intercept.",["1"]],
+  ["Write its equation.",["y=3x+1","3x+1","f(x)=3x+1"]]
+ ],why:"The slope is (10−4)/(3−1)=3. Substituting (1,4) gives b=1."},
+ {q:"For the line y=−2x+8:",parts:[
+  ["Find the x-intercept (x-coordinate only).",["4"]],
+  ["Find the y-intercept (y-coordinate only).",["8"]],
+  ["State whether the line is increasing or decreasing.",["decreasing","downward"]]
+ ],why:"Set y=0 for the x-intercept; set x=0 for the y-intercept. A negative slope means decreasing."},
+ {q:"For the quadratic function f(x)=x²−8x+12:",parts:[
+  ["Find the axis of symmetry.",["x=4","4"]],
+  ["Find the y-coordinate of the vertex.",["-4","−4"]],
+  ["Find the minimum value.",["-4","−4"]]
+ ],why:"The axis is x=−b/(2a)=4. Then f(4)=−4, which is the minimum because a>0."},
+ {q:"For f(x)=−x²+6x−5:",parts:[
+  ["Find the axis of symmetry.",["x=3","3"]],
+  ["Find the maximum value.",["4"]],
+  ["Does the parabola open upward or downward?",["downward","down"]]
+ ],why:"The vertex occurs at x=3 and f(3)=4. Since the coefficient of x² is negative, it opens downward."},
+ {q:"Find the domain of each function.",parts:[
+  ["For f(x)=√(2x−6), enter the domain.",["[3,infinity)","[3,∞)","x>=3","x≥3"]],
+  ["For g(x)=1/(x−5), enter the excluded x-value.",["5","x=5"]],
+  ["For h(x)=√(9−x), enter the domain.",["(-infinity,9]","(-∞,9]","x<=9","x≤9"]]
+ ],why:"For a square root, the radicand must be at least zero. A denominator cannot equal zero."},
+ {q:"A line has x-intercept −2 and y-intercept 6.",parts:[
+  ["Find its slope.",["3"]],
+  ["Write its equation.",["y=3x+6","3x+6"]],
+  ["Find the value of y when x=2.",["12"]]
+ ],why:"The line passes through (−2,0) and (0,6). Its slope is 6/2=3, so y=3x+6."},
+ {q:"For f(x)=2x²−4x−6:",parts:[
+  ["Find the x-coordinate of the vertex.",["1"]],
+  ["Find the y-coordinate of the vertex.",["-8","−8"]],
+  ["Find the x-intercepts as two numbers separated by a comma.",["-1,3","3,-1","−1,3","3,−1"]]
+ ],why:"The vertex x-coordinate is −b/(2a)=1, and f(1)=−8. Factoring gives 2(x−3)(x+1)=0, so x=−1 and x=3."}
+];
+
+function render(){
+ const m=document.getElementById('mcqs');
+ m.innerHTML=mcq.map((q,i)=>`<article class="question" id="mq${i}"><div class="qhead"><span>${i+1}. ${q.q}</span><span class="mark">1 mark</span></div><div class="options">${q.o.map((v,j)=>`<label class="option"><input type="radio" name="mc${i}" value="${j}"><span><b>${String.fromCharCode(65+j)}.</b> ${v}</span></label>`).join('')}</div><div class="qfeedback" id="mfeed${i}"></div></article>`).join('');
+ const w=document.getElementById('workouts');
+ w.innerHTML=workouts.map((q,i)=>`<article class="question" id="wq${i}"><div class="qhead"><span>${i+1}. ${q.q}</span><span class="mark">3 marks</span></div><div class="workgrid">${q.parts.map((p,j)=>`<div class="part"><label>${String.fromCharCode(97+j)}. ${p[0]}</label><input type="text" id="wa${i}_${j}" autocomplete="off" spellcheck="false" placeholder="Enter your answer"><small>1 mark</small></div>`).join('')}</div><div class="qfeedback" id="wfeed${i}"></div></article>`).join('');
+}
+function norm(s){
+ return String(s||'').toLowerCase().trim().replace(/[−–]/g,'-').replace(/[∞]/g,'infinity').replace(/\s+/g,'').replace(/²/g,'^2').replace(/³/g,'^3').replace(/≥/g,'>=').replace(/≤/g,'<=').replace(/−/g,'-').replace(/,/g,',');
+}
+function equivalent(got, accepted){
+ const a=norm(got);
+ if(!a)return false;
+ return accepted.some(x=>{
+  const b=norm(x);
+  if(a===b)return true;
+  const na=Number(a), nb=Number(b);
+  return Number.isFinite(na)&&Number.isFinite(nb)&&Math.abs(na-nb)<1e-9;
+ });
+}
+function grade(){
+ let score=0, mcScore=0, wScore=0, attempted=0;
+ mcq.forEach((q,i)=>{
+  const chosen=document.querySelector(`input[name="mc${i}"]:checked`);
+  const ok=chosen && Number(chosen.value)===q.a;
+  if(chosen)attempted++;
+  if(ok){score++;mcScore++;}
+  const el=document.getElementById(`mfeed${i}`);
+  el.innerHTML=`<div class="feedback ${ok?'correct':'incorrect'}">${ok?'Correct ✓':'Incorrect ✗'} — Answer: <b>${String.fromCharCode(65+q.a)}. ${q.o[q.a]}</b><div class="explain">${q.e}</div></div>`;
+ });
+ workouts.forEach((q,i)=>{
+  let local=0;
+  q.parts.forEach((p,j)=>{
+   const input=document.getElementById(`wa${i}_${j}`);
+   const val=input.value;
+   if(val.trim())attempted++;
+   const ok=equivalent(val,p[1]);
+   if(ok){score++;wScore++;local++;}
+   input.style.borderColor=ok?'#137547':(val.trim()?'#b42318':'#cbd3e1');
+  });
+  document.getElementById(`wfeed${i}`).innerHTML=`<div class="feedback ${local===3?'correct':local===0?'incorrect':'incorrect'}">Score: <b>${local}/3</b><div class="explain">${q.why}</div><div class="explain">Correct answers: ${q.parts.map((p,j)=>`${String.fromCharCode(97+j)}. ${p[1][0]}`).join(' • ')}</div></div>`;
+ });
+ const pct=Math.round(score/50*100);
+ let message=pct>=90?'Outstanding work!':pct>=75?'Very good performance.':pct>=60?'Good effort — review the corrections.':'Keep practicing. Use the explanations to learn from each mistake.';
+ const result=document.getElementById('result');
+ result.style.display='block';
+ result.innerHTML=`<h2>Your Result</h2><div class="score">${score} / 50</div><p><b>${pct}%</b> — ${message}</p><p>Multiple choice: <b>${mcScore}/20</b> &nbsp; | &nbsp; Workout: <b>${wScore}/30</b></p><p>Answered fields: ${attempted}/50</p><p style="color:#667085;font-size:13px">All answers are graded in this page. Workout grading checks the final answer in each box; equivalent accepted formats are included where applicable.</p><div class="review"><h3>Review your answers</h3><p>Each question now shows its correct answer and explanation above.</p></div>`;
+ result.scrollIntoView({behavior:'smooth',block:'start'});
+ document.getElementById('submit').disabled=true;
+}
+function resetTest(){
+ if(!confirm('Reset all answers and start again?'))return;
+ render();
+ document.getElementById('result').style.display='none';
+ document.getElementById('submit').disabled=false;
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+render();
+document.getElementById('submit').addEventListener('click',()=>{
+ if(!confirm('Submit your test now? You will see your score and corrections.'))return;
+ grade();
+});
+document.getElementById('reset').addEventListener('click',resetTest);
+</script>
+</body>
+</html>
